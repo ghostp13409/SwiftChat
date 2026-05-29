@@ -9,6 +9,8 @@ import 'features/discovery/presentation/bloc/discovery_cubit.dart';
 import 'features/chat/presentation/bloc/chat_cubit.dart';
 
 import 'features/discovery/presentation/pages/discovery_page.dart';
+import 'core/utils/sync_manager.dart';
+import 'core/utils/cleanup_worker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +19,10 @@ void main() async {
   // Data Migration (Drift to Isar)
   final migrationService = di.sl<MigrationService>();
   await migrationService.migrate();
+
+  // Start Background Services
+  di.sl<SyncManager>().start();
+  di.sl<CleanupWorker>().start();
 
   runApp(const MyApp());
 }
