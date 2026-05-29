@@ -13,8 +13,8 @@ class SwiftShell extends StatefulWidget {
 }
 
 class _SwiftShellState extends State<SwiftShell> {
-  final PageController _pageController = PageController(initialPage: 1);
-  double _currentPage = 1.0;
+  final PageController _pageController = PageController(initialPage: 0);
+  double _currentPage = 0.0;
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _SwiftShellState extends State<SwiftShell> {
     _pageController.addListener(() {
       if (_pageController.hasClients) {
         setState(() {
-          _currentPage = _pageController.page ?? 1.0;
+          _currentPage = _pageController.page ?? 0.0;
         });
       }
     });
@@ -46,26 +46,11 @@ class _SwiftShellState extends State<SwiftShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: PageView(
+        controller: _pageController,
         children: [
-          PageView(
-            controller: _pageController,
-            children: [
-              ProfilePane(profile: widget.myProfile),
-              ChatListPane(onOpenRadar: _openRadar),
-            ],
-          ),
-          
-          // Custom Page Indicator (Minimal)
-          if (_currentPage < 1.0)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 20,
-              left: 20,
-              child: Opacity(
-                opacity: 1.0 - _currentPage,
-                child: const Icon(Icons.arrow_back_ios, color: Colors.black26),
-              ),
-            ),
+          ChatListPane(onOpenRadar: _openRadar),
+          ProfilePane(profile: widget.myProfile),
         ],
       ),
     );

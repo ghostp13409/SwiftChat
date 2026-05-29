@@ -1,38 +1,30 @@
-# Phase 5: Social & Media
+# Phase 5: Detailed Chat & Social
 
-**Goal:** Add rich communication features including groups, topic-based discovery, and file sharing.
+**Goal:** Transform the basic chat interface into a premium, rich messaging experience with group support.
 
 ## Requirements
-- Public and Private Groups.
-- Topic matching (highlighting shared interests).
-- Image and file sharing over the mesh.
-- Persistent group history (syncing through any member).
+- Redesigned Chat UI following the Playful Organic system.
+- Rich media support (Images, Files).
+- Group Chat functionality.
 
 ## Technical Tasks
 
-### 4.1 Group Chat Implementation
-- [ ] Create `Group` model and database schema.
-- [ ] "Create Group" flow (Set Name, Topic, Visibility).
-- [ ] Group Handshake: Exchanging Group Keys (Shared Secret for the room).
-- [ ] Logic for "Public" (broadcasted) vs "Private" (invite-only).
+### 5.1 Premium Chat UI
+- [ ] Implement the polished `MessageBubble` system (differentiation for Me/Other).
+- [ ] Add "Physical" input field with bouncy animations.
+- [ ] Implement message reactions (Quick emoji taps).
 
-### 4.2 Topic Matching
-- [ ] System to compare user topics with nearby peers/groups.
-- [ ] Visual "Highlight" or "Match Score" in the UI.
-- [ ] "Topic-Based Rooms" auto-discovery.
+### 5.2 Social & Groups
+- [ ] Group creation and management.
+- [ ] Shared secret generation for group encryption.
+- [ ] Group member list and invite system.
 
-### 4.3 Media Sharing
-- [ ] Implement file picking and thumbnail generation.
-- [ ] "Payload Transfer" logic for large files using Wi-Fi Direct.
-- [ ] Thumbnail sync via Gossip (for previews).
-- [ ] Auto-delete files when the message expires.
-
-### 4.4 Group Sync
-- [ ] Implement "Group Gossip": Syncing the room history through any member currently in range.
-- [ ] Membership tracking: Who is currently in the group and reachable.
+### 5.3 Rich Media
+- [ ] Wi-Fi Direct integration for large file transfers.
+- [ ] Thumbnail generation and mesh propagation.
+- [ ] Integrated image viewer.
 
 ## Success Criteria
-1. Create a group on Device A. Device B joins.
-2. Device A and B chat. Device A moves away.
-3. Device C joins the group. Device B syncs A's old messages to C.
-4. Photos shared in the group are visible and eventually deleted.
+1. Chat feels fluid and responsive (60fps).
+2. Group messages correctly sync across all members in range.
+3. Media is shared securely without internet.

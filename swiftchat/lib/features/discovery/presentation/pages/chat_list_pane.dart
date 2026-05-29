@@ -156,7 +156,7 @@ class ChatListPane extends StatelessWidget {
                 type: SwiftButtonType.primary,
                 fullWidth: false,
                 icon: Icons.radar,
-                label: 'RADAR',
+                label: 'EXPLORE',
               ),
             ),
           ],
