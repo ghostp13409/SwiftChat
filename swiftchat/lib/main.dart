@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/service_locator.dart' as di;
+import 'core/theme/swift_theme.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'features/profile/presentation/bloc/profile_state.dart';
 import 'features/profile/presentation/pages/profile_setup_page.dart';
@@ -36,20 +37,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'SwiftChat',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF6750A4),
-            brightness: Brightness.light,
-          ),
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF6750A4),
-            brightness: Brightness.dark,
-          ),
-          useMaterial3: true,
-        ),
+        theme: SwiftTheme.lightTheme,
+        darkTheme: SwiftTheme.darkTheme,
+        themeMode: ThemeMode.system,
         home: const AppRoot(),
       ),
     );
