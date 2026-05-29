@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:isar_community/isar.dart';
-import '../database/app_database.dart';
 import '../database/isar_database.dart';
-import '../database/migration_service.dart';
 
 import '../../core/utils/encryption_service.dart';
 import '../../core/utils/permission_service.dart';
@@ -106,9 +104,7 @@ Future<void> init() async {
   // Core
   await IsarDatabase.init();
   sl.registerSingleton<Isar>(IsarDatabase.isar);
-  sl.registerLazySingleton(() => MigrationService(sl(), sl()));
 
-  sl.registerLazySingleton(() => AppDatabase());
   sl.registerLazySingleton(() => KeyService());
   sl.registerLazySingleton(() => PermissionService());
   sl.registerLazySingleton(() => EncryptionService());

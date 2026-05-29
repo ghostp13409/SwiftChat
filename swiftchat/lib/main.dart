@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/service_locator.dart' as di;
-import 'core/database/migration_service.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'features/profile/presentation/bloc/profile_state.dart';
 import 'features/profile/presentation/pages/profile_setup_page.dart';
@@ -15,10 +14,6 @@ import 'core/utils/cleanup_worker.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-
-  // Data Migration (Drift to Isar)
-  final migrationService = di.sl<MigrationService>();
-  await migrationService.migrate();
 
   // Start Background Services
   di.sl<SyncManager>().start();
