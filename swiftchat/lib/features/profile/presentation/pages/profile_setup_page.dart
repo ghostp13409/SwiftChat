@@ -37,10 +37,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       context.read<ProfileCubit>().createProfile(
-            username: _usernameController.text.trim(),
-            bio: _bioController.text.trim(),
-            topics: _selectedTopics,
-          );
+        username: _usernameController.text.trim(),
+        bio: _bioController.text.trim(),
+        topics: _selectedTopics,
+      );
     }
   }
 
@@ -52,9 +52,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
         builder: (context, state) {

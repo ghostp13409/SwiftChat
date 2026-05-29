@@ -20,7 +20,15 @@ class Profile extends Equatable {
   final bool isMe;
 
   @override
-  List<Object?> get props => [id, username, bio, photoPath, publicKey, topics, isMe];
+  List<Object?> get props => [
+    id,
+    username,
+    bio,
+    photoPath,
+    publicKey,
+    topics,
+    isMe,
+  ];
 
   Profile copyWith({
     String? id,

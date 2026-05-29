@@ -6,10 +6,7 @@ class EncryptionService {
 
   Future<String> encrypt(String text, SecretKey secretKey) async {
     final clearText = utf8.encode(text);
-    final secretBox = await algorithm.encrypt(
-      clearText,
-      secretKey: secretKey,
-    );
+    final secretBox = await algorithm.encrypt(clearText, secretKey: secretKey);
     return base64Encode(secretBox.concatenation());
   }
 
@@ -20,10 +17,7 @@ class EncryptionService {
       nonceLength: algorithm.nonceLength,
       macLength: algorithm.macAlgorithm.macLength,
     );
-    final clearText = await algorithm.decrypt(
-      secretBox,
-      secretKey: secretKey,
-    );
+    final clearText = await algorithm.decrypt(secretBox, secretKey: secretKey);
     return utf8.decode(clearText);
   }
 }

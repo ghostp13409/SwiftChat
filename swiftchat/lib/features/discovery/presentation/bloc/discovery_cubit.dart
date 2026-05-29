@@ -16,7 +16,11 @@ abstract class DiscoveryState extends Equatable {
 class DiscoveryInitial extends DiscoveryState {}
 
 class DiscoveryRunning extends DiscoveryState {
-  const DiscoveryRunning({required this.peers, this.isAdvertising = false, this.isDiscovering = false});
+  const DiscoveryRunning({
+    required this.peers,
+    this.isAdvertising = false,
+    this.isDiscovering = false,
+  });
   final List<Peer> peers;
   final bool isAdvertising;
   final bool isDiscovering;
@@ -62,25 +66,30 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
     _peersSubscription = repository.discoveredPeers.listen((peers) {
       final oldPeers = _currentPeers;
       _currentPeers = peers;
-      
+
       // Detect new connections to initiate handshake
       if (_myPeerId != null) {
         for (final peer in peers) {
-          final oldPeer = oldPeers.where((p) => p.endpointId == peer.endpointId).firstOrNull;
-          if (peer.status == ConnectionStatus.connected && (oldPeer == null || oldPeer.status != ConnectionStatus.connected)) {
+          final oldPeer = oldPeers
+              .where((p) => p.endpointId == peer.endpointId)
+              .firstOrNull;
+          if (peer.status == ConnectionStatus.connected &&
+              (oldPeer == null ||
+                  oldPeer.status != ConnectionStatus.connected)) {
             handshakeService.initiateHandshake(peer.endpointId, _myPeerId!);
           }
         }
       }
-      
+
       _emitRunning();
     });
 
     _payloadSubscription = repository.payloadStream.listen((payload) {
       final String id = payload['senderId'];
       final Map<String, dynamic> data = payload['data'];
-      
-      if (data.containsKey('type') && data['type'].toString().startsWith('handshake_')) {
+
+      if (data.containsKey('type') &&
+          data['type'].toString().startsWith('handshake_')) {
         handshakeService.handleHandshakePayload(id, data);
       }
     });
@@ -90,7 +99,7 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
     _myPeerId = myPeerId;
     final advResult = await startAdvertising(userName);
     final discResult = await startDiscovery(NoParams());
-// ... rest of method
+    // ... rest of method
 
     advResult.fold(
       (f) => emit(DiscoveryError(f.message)),
@@ -115,18 +124,17 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
 
   Future<void> connect(String endpointId) async {
     final result = await requestConnection(endpointId);
-    result.fold(
-      (f) => emit(DiscoveryError(f.message)),
-      (_) => null,
-    );
+    result.fold((f) => emit(DiscoveryError(f.message)), (_) => null);
   }
 
   void _emitRunning() {
-    emit(DiscoveryRunning(
-      peers: _currentPeers,
-      isAdvertising: _isAdvertising,
-      isDiscovering: _isDiscovering,
-    ));
+    emit(
+      DiscoveryRunning(
+        peers: _currentPeers,
+        isAdvertising: _isAdvertising,
+        isDiscovering: _isDiscovering,
+      ),
+    );
   }
 
   @override

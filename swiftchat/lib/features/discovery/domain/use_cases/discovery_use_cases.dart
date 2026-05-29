@@ -9,7 +9,7 @@ class StartAdvertising implements UseCase<void, String> {
 
   @override
   Future<Either<Failure, void>> call(String userName) async {
-    return await repository.startAdvertising(userName);
+    return repository.startAdvertising(userName);
   }
 }
 
@@ -19,7 +19,7 @@ class StopAdvertising implements UseCase<void, NoParams> {
 
   @override
   Future<Either<Failure, void>> call(NoParams params) async {
-    return await repository.stopAdvertising();
+    return repository.stopAdvertising();
   }
 }
 
@@ -29,7 +29,7 @@ class StartDiscovery implements UseCase<void, NoParams> {
 
   @override
   Future<Either<Failure, void>> call(NoParams params) async {
-    return await repository.startDiscovery();
+    return repository.startDiscovery();
   }
 }
 
@@ -39,7 +39,7 @@ class StopDiscovery implements UseCase<void, NoParams> {
 
   @override
   Future<Either<Failure, void>> call(NoParams params) async {
-    return await repository.stopDiscovery();
+    return repository.stopDiscovery();
   }
 }
 
@@ -49,6 +49,6 @@ class RequestConnection implements UseCase<void, String> {
 
   @override
   Future<Either<Failure, void>> call(String endpointId) async {
-    return await repository.requestConnection(endpointId);
+    return repository.requestConnection(endpointId);
   }
 }

@@ -10,6 +10,6 @@ class SaveProfile implements UseCase<void, Profile> {
 
   @override
   Future<Either<Failure, void>> call(Profile profile) async {
-    return await repository.saveProfile(profile);
+    return repository.saveProfile(profile);
   }
 }

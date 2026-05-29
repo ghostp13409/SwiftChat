@@ -21,16 +21,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> loadProfile() async {
     emit(ProfileLoading());
     final result = await getProfile(NoParams());
-    result.fold(
-      (failure) {
-        if (failure.message.contains('not found')) {
-          emit(ProfileNotFound());
-        } else {
-          emit(ProfileError(failure.message));
-        }
-      },
-      (profile) => emit(ProfileLoaded(profile)),
-    );
+    result.fold((failure) {
+      if (failure.message.contains('not found')) {
+        emit(ProfileNotFound());
+      } else {
+        emit(ProfileError(failure.message));
+      }
+    }, (profile) => emit(ProfileLoaded(profile)));
   }
 
   Future<void> createProfile({

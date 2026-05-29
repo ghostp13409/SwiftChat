@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:swiftchat/features/chat/presentation/bloc/chat_cubit.dart';
-import 'package:swiftchat/features/chat/domain/entities/message.dart';
 import 'package:swiftchat/features/discovery/domain/entities/peer.dart';
 
 class ChatPage extends StatefulWidget {
@@ -18,9 +17,9 @@ class _ChatPageState extends State<ChatPage> {
   void _send() {
     if (_messageController.text.trim().isNotEmpty) {
       context.read<ChatCubit>().send(
-            widget.peer.endpointId,
-            _messageController.text.trim(),
-          );
+        widget.peer.endpointId,
+        _messageController.text.trim(),
+      );
       _messageController.clear();
     }
   }
@@ -47,10 +46,18 @@ class _ChatPageState extends State<ChatPage> {
             child: BlocBuilder<ChatCubit, ChatState>(
               builder: (context, state) {
                 if (state is ChatActive) {
-                  final messages = state.messages.where((m) => m.senderId == widget.peer.endpointId || m.senderId == 'me').toList();
-                  
+                  final messages = state.messages
+                      .where(
+                        (m) =>
+                            m.senderId == widget.peer.endpointId ||
+                            m.senderId == 'me',
+                      )
+                      .toList();
+
                   if (messages.isEmpty) {
-                    return const Center(child: Text('No messages yet. Send a greeting!'));
+                    return const Center(
+                      child: Text('No messages yet. Send a greeting!'),
+                    );
                   }
 
                   return ListView.builder(
@@ -61,9 +68,14 @@ class _ChatPageState extends State<ChatPage> {
                       final isMe = message.senderId == 'me';
 
                       return Align(
-                        alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                        alignment: isMe
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 8,
+                          ),
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: isMe ? Colors.deepPurple : Colors.grey[300],
@@ -80,7 +92,9 @@ class _ChatPageState extends State<ChatPage> {
                     },
                   );
                 }
-                return const Center(child: Text('Connecting to secure link...'));
+                return const Center(
+                  child: Text('Connecting to secure link...'),
+                );
               },
             ),
           ),
@@ -97,10 +111,7 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _send,
-                ),
+                IconButton(icon: const Icon(Icons.send), onPressed: _send),
               ],
             ),
           ),

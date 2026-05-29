@@ -13,20 +13,22 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, Profile>> getMyProfile() async {
     try {
-      final myProfile = await (database.select(database.profiles)
-            ..where((t) => t.isMe.equals(true)))
-          .getSingleOrNull();
+      final myProfile = await (database.select(
+        database.profiles,
+      )..where((t) => t.isMe.equals(true))).getSingleOrNull();
 
       if (myProfile != null) {
-        return Right(Profile(
-          id: myProfile.peerId,
-          username: myProfile.username,
-          bio: myProfile.bio,
-          photoPath: myProfile.photoPath,
-          publicKey: myProfile.publicKey,
-          topics: myProfile.topics,
-          isMe: myProfile.isMe,
-        ));
+        return Right(
+          Profile(
+            id: myProfile.peerId,
+            username: myProfile.username,
+            bio: myProfile.bio,
+            photoPath: myProfile.photoPath,
+            publicKey: myProfile.publicKey,
+            topics: myProfile.topics,
+            isMe: myProfile.isMe,
+          ),
+        );
       } else {
         return const Left(CacheFailure('My profile not found'));
       }
@@ -38,7 +40,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, void>> saveProfile(Profile profile) async {
     try {
-      await database.into(database.profiles).insertOnConflictUpdate(
+      await database
+          .into(database.profiles)
+          .insertOnConflictUpdate(
             ProfilesCompanion(
               peerId: Value(profile.id),
               username: Value(profile.username),
@@ -58,12 +62,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, List<Profile>>> getNearbyPeers() async {
     try {
-      final peers = await (database.select(database.profiles)
-            ..where((t) => t.isMe.equals(false)))
-          .get();
+      final peers = await (database.select(
+        database.profiles,
+      )..where((t) => t.isMe.equals(false))).get();
 
-      return Right(peers
-          .map((p) => Profile(
+      return Right(
+        peers
+            .map(
+              (p) => Profile(
                 id: p.peerId,
                 username: p.username,
                 bio: p.bio,
@@ -71,8 +77,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
                 publicKey: p.publicKey,
                 topics: p.topics,
                 isMe: p.isMe,
-              ))
-          .toList());
+              ),
+            )
+            .toList(),
+      );
     } catch (e) {
       return Left(CacheFailure(e.toString()));
     }
@@ -81,7 +89,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, void>> savePeer(Profile peer) async {
     try {
-      await database.into(database.profiles).insertOnConflictUpdate(
+      await database
+          .into(database.profiles)
+          .insertOnConflictUpdate(
             ProfilesCompanion(
               peerId: Value(peer.id),
               username: Value(peer.username),

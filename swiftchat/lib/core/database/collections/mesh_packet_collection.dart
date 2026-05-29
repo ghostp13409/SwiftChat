@@ -8,14 +8,14 @@ class MeshPacketCollection {
 
   @Index(unique: true)
   late String messageHash;
-  
+
   @Index()
   late String recipientId;
-  
+
   late String payload; // Encrypted JSON
-  
+
   @Index()
   late DateTime ttl;
-  
+
   late DateTime createdAt;
 }

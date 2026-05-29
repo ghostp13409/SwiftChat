@@ -17,7 +17,8 @@ class Peer extends Equatable {
   });
 
   final String endpointId;
-  final String endpointName; // This will be the JSON-encoded Profile on discovery
+  final String
+  endpointName; // This will be the JSON-encoded Profile on discovery
   final ConnectionStatus status;
   final String? userName;
 

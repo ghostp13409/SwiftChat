@@ -35,7 +35,10 @@ class ChatRepositoryImpl implements ChatRepository {
         final secret = handshakeService.getSecret(id);
         if (secret != null) {
           try {
-            final decryptedContent = await encryptionService.decrypt(data['content'], secret);
+            final decryptedContent = await encryptionService.decrypt(
+              data['content'],
+              secret,
+            );
             final message = Message(
               id: const Uuid().v4(),
               senderId: id,
@@ -53,20 +56,25 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<Failure, void>> sendMessage(String peerEndpointId, String content) async {
+  Future<Either<Failure, void>> sendMessage(
+    String peerEndpointId,
+    String content,
+  ) async {
     final secret = handshakeService.getSecret(peerEndpointId);
     if (secret == null) {
-      return const Left(P2PFailure('No secure link established with this peer'));
+      return const Left(
+        P2PFailure('No secure link established with this peer'),
+      );
     }
 
     try {
       final encryptedContent = await encryptionService.encrypt(content, secret);
-      final payload = {
-        'type': 'chat_message',
-        'content': encryptedContent,
-      };
+      final payload = {'type': 'chat_message', 'content': encryptedContent};
 
-      final result = await discoveryRepository.sendPayload(peerEndpointId, payload);
+      final result = await discoveryRepository.sendPayload(
+        peerEndpointId,
+        payload,
+      );
       return result;
     } catch (e) {
       return Left(P2PFailure(e.toString()));

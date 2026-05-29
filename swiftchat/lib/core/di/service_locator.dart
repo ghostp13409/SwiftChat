@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:isar/isar.dart';
 import '../database/app_database.dart';
+import '../database/isar_database.dart';
+import '../database/migration_service.dart';
 
 import '../../core/utils/encryption_service.dart';
 import '../../core/utils/permission_service.dart';
@@ -58,11 +61,7 @@ Future<void> init() async {
   // Features - Profile
   // Cubit
   sl.registerFactory(
-    () => ProfileCubit(
-      getProfile: sl(),
-      saveProfile: sl(),
-      keyService: sl(),
-    ),
+    () => ProfileCubit(getProfile: sl(), saveProfile: sl(), keyService: sl()),
   );
 
   // Use Cases
@@ -76,9 +75,7 @@ Future<void> init() async {
 
   // Features - Chat
   // Cubit
-  sl.registerFactory(
-    () => ChatCubit(repository: sl()),
-  );
+  sl.registerFactory(() => ChatCubit(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<ChatRepository>(
@@ -90,6 +87,10 @@ Future<void> init() async {
   );
 
   // Core
+  await IsarDatabase.init();
+  sl.registerSingleton<Isar>(IsarDatabase.isar);
+  sl.registerLazySingleton(() => MigrationService(sl(), sl()));
+
   sl.registerLazySingleton(() => AppDatabase());
   sl.registerLazySingleton(() => KeyService());
   sl.registerLazySingleton(() => PermissionService());

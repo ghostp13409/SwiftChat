@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/service_locator.dart' as di;
+import 'core/database/migration_service.dart';
 import 'features/profile/presentation/bloc/profile_cubit.dart';
 import 'features/profile/presentation/bloc/profile_state.dart';
 import 'features/profile/presentation/pages/profile_setup_page.dart';
@@ -12,6 +13,11 @@ import 'features/discovery/presentation/pages/discovery_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
+
+  // Data Migration (Drift to Isar)
+  final migrationService = di.sl<MigrationService>();
+  await migrationService.migrate();
+
   runApp(const MyApp());
 }
 
@@ -22,15 +28,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => di.sl<ProfileCubit>()..loadProfile(),
-        ),
-        BlocProvider(
-          create: (_) => di.sl<DiscoveryCubit>()..init(),
-        ),
-        BlocProvider(
-          create: (_) => di.sl<ChatCubit>()..init(),
-        ),
+        BlocProvider(create: (_) => di.sl<ProfileCubit>()..loadProfile()),
+        BlocProvider(create: (_) => di.sl<DiscoveryCubit>()..init()),
+        BlocProvider(create: (_) => di.sl<ChatCubit>()..init()),
       ],
       child: MaterialApp(
         title: 'SwiftChat',

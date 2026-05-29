@@ -1,11 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum MessageStatus {
-  sending,
-  sent,
-  received,
-  error,
-}
+enum MessageStatus { sending, sent, received, error }
 
 class Message extends Equatable {
   const Message({

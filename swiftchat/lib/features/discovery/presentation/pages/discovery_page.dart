@@ -12,15 +12,23 @@ class DiscoveryPage extends StatelessWidget {
   final Profile myProfile;
 
   Future<void> _handleStartDiscovery(BuildContext context) async {
-    final hasPermissions = await sl<PermissionService>().checkAndRequestPermissions();
+    final hasPermissions = await sl<PermissionService>()
+        .checkAndRequestPermissions();
     if (hasPermissions) {
       if (context.mounted) {
-        context.read<DiscoveryCubit>().startAll(myProfile.username, myProfile.id);
+        context.read<DiscoveryCubit>().startAll(
+          myProfile.username,
+          myProfile.id,
+        );
       }
     } else {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bluetooth and Location permissions are required for P2P.')),
+          const SnackBar(
+            content: Text(
+              'Bluetooth and Location permissions are required for P2P.',
+            ),
+          ),
         );
       }
     }
@@ -36,7 +44,7 @@ class DiscoveryPage extends StatelessWidget {
         actions: [
           BlocBuilder<DiscoveryCubit, DiscoveryState>(
             builder: (context, state) {
-              bool isRunning = false;
+              var isRunning = false;
               if (state is DiscoveryRunning) {
                 isRunning = state.isAdvertising || state.isDiscovering;
               }
@@ -95,17 +103,19 @@ class DiscoveryPage extends StatelessWidget {
                 return ListTile(
                   onTap: peer.status == ConnectionStatus.connected
                       ? () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatPage(peer: peer),
-                            ),
-                          )
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(peer: peer),
+                          ),
+                        )
                       : null,
                   leading: CircleAvatar(
                     child: Text(peer.userName?[0].toUpperCase() ?? '?'),
                   ),
                   title: Text(peer.userName ?? 'Unknown Device'),
-                  subtitle: Text('ID: ${peer.endpointId} • ${peer.status.name}'),
+                  subtitle: Text(
+                    'ID: ${peer.endpointId} • ${peer.status.name}',
+                  ),
                   trailing: _buildTrailing(context, peer),
                 );
               },
@@ -125,7 +135,8 @@ class DiscoveryPage extends StatelessWidget {
   Widget _buildTrailing(BuildContext context, Peer peer) {
     if (peer.status == ConnectionStatus.discovered) {
       return ElevatedButton(
-        onPressed: () => context.read<DiscoveryCubit>().connect(peer.endpointId),
+        onPressed: () =>
+            context.read<DiscoveryCubit>().connect(peer.endpointId),
         child: const Text('Connect'),
       );
     }

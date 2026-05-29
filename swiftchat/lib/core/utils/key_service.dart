@@ -27,15 +27,18 @@ class KeyService {
   }
 
   Future<SimpleKeyPair> generateExchangeKeyPair() async {
-    return await x25519.newKeyPair();
+    return x25519.newKeyPair();
   }
 
-  Future<SecretKey> deriveSharedSecret(SimpleKeyPair myKeyPair, String peerPublicKeyBase64) async {
+  Future<SecretKey> deriveSharedSecret(
+    SimpleKeyPair myKeyPair,
+    String peerPublicKeyBase64,
+  ) async {
     final peerPublicKey = SimplePublicKey(
       base64Decode(peerPublicKeyBase64),
       type: KeyPairType.x25519,
     );
-    return await x25519.sharedSecretKey(
+    return x25519.sharedSecretKey(
       keyPair: myKeyPair,
       remotePublicKey: peerPublicKey,
     );

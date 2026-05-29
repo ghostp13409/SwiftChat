@@ -4,7 +4,7 @@ import 'dart:io';
 class PermissionService {
   Future<bool> checkAndRequestPermissions() async {
     if (Platform.isAndroid) {
-      Map<Permission, PermissionStatus> statuses = await [
+      var statuses = await [
         Permission.location,
         Permission.bluetoothScan,
         Permission.bluetoothConnect,
@@ -14,7 +14,7 @@ class PermissionService {
 
       return statuses.values.every((status) => status.isGranted);
     } else if (Platform.isIOS) {
-      Map<Permission, PermissionStatus> statuses = await [
+      var statuses = await [
         Permission.bluetooth,
         Permission.location,
       ].request();
@@ -25,7 +25,7 @@ class PermissionService {
   }
 
   Future<bool> isLocationEnabled() async {
-    return await Permission.location.serviceStatus.isEnabled;
+    return Permission.location.serviceStatus.isEnabled;
   }
 
   Future<void> openSettings() async {

@@ -62,13 +62,10 @@ void main() {
 
       // Assert
       expect(result.isRight(), isTrue);
-      result.fold(
-        (l) => fail('Should have returned a Right'),
-        (r) {
-          expect(r, contains(tPeer));
-          expect(r.length, 1);
-        },
-      );
+      result.fold((l) => fail('Should have returned a Right'), (r) {
+        expect(r, contains(tPeer));
+        expect(r.length, 1);
+      });
     });
   });
 }

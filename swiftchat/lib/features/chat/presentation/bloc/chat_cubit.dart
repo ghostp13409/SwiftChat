@@ -49,15 +49,12 @@ class ChatCubit extends Cubit<ChatState> {
       timestamp: DateTime.now(),
       status: MessageStatus.sent,
     );
-    
+
     _messages.add(myMessage);
     emit(ChatActive(messages: List.from(_messages)));
 
     final result = await repository.sendMessage(peerId, content);
-    result.fold(
-      (f) => emit(ChatError(f.message)),
-      (_) => null,
-    );
+    result.fold((f) => emit(ChatError(f.message)), (_) => null);
   }
 
   @override

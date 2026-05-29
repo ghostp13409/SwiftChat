@@ -11,8 +11,11 @@ abstract class DiscoveryRepository {
   Future<Either<Failure, void>> acceptConnection(String endpointId);
   Future<Either<Failure, void>> rejectConnection(String endpointId);
   Future<Either<Failure, void>> disconnect(String endpointId);
-  Future<Either<Failure, void>> sendPayload(String endpointId, Map<String, dynamic> data);
-  
+  Future<Either<Failure, void>> sendPayload(
+    String endpointId,
+    Map<String, dynamic> data,
+  );
+
   Stream<List<Peer>> get discoveredPeers;
   Stream<Map<String, dynamic>> get payloadStream;
 }

@@ -24,11 +24,17 @@ class HandshakeService {
     // Deterministic initiation: Only the device with the "higher" Peer ID initiates
     // to avoid race conditions in P2P clusters.
     if (myPeerId.compareTo(endpointId) < 0) {
-      developer.log('Handshake: Waiting for peer $endpointId to initiate (Peer ID order)', name: 'swiftchat.handshake');
+      developer.log(
+        'Handshake: Waiting for peer $endpointId to initiate (Peer ID order)',
+        name: 'swiftchat.handshake',
+      );
       return;
     }
 
-    developer.log('Handshake: Initiating with $endpointId', name: 'swiftchat.handshake');
+    developer.log(
+      'Handshake: Initiating with $endpointId',
+      name: 'swiftchat.handshake',
+    );
     final keyPair = await keyService.generateExchangeKeyPair();
     _pendingExchanges[endpointId] = keyPair;
 
@@ -41,14 +47,23 @@ class HandshakeService {
     await discoveryRepository.sendPayload(endpointId, handshakeData);
   }
 
-  Future<void> handleHandshakePayload(String endpointId, Map<String, dynamic> data) async {
+  Future<void> handleHandshakePayload(
+    String endpointId,
+    Map<String, dynamic> data,
+  ) async {
     final String type = data['type'];
     final String peerPublicKeyBase64 = data['publicKey'];
 
     if (type == 'handshake_init') {
-      developer.log('Handshake: Received init from $endpointId', name: 'swiftchat.handshake');
+      developer.log(
+        'Handshake: Received init from $endpointId',
+        name: 'swiftchat.handshake',
+      );
       final myKeyPair = await keyService.generateExchangeKeyPair();
-      final secret = await keyService.deriveSharedSecret(myKeyPair, peerPublicKeyBase64);
+      final secret = await keyService.deriveSharedSecret(
+        myKeyPair,
+        peerPublicKeyBase64,
+      );
       _establishedSecrets[endpointId] = secret;
 
       final myPublicKey = await myKeyPair.extractPublicKey();
@@ -57,17 +72,32 @@ class HandshakeService {
         'publicKey': base64Encode(myPublicKey.bytes),
       };
       await discoveryRepository.sendPayload(endpointId, responseData);
-      developer.log('Handshake: Secure session established with $endpointId (as responder)', name: 'swiftchat.handshake');
+      developer.log(
+        'Handshake: Secure session established with $endpointId (as responder)',
+        name: 'swiftchat.handshake',
+      );
     } else if (type == 'handshake_response') {
-      developer.log('Handshake: Received response from $endpointId', name: 'swiftchat.handshake');
+      developer.log(
+        'Handshake: Received response from $endpointId',
+        name: 'swiftchat.handshake',
+      );
       final myKeyPair = _pendingExchanges[endpointId];
       if (myKeyPair != null) {
-        final secret = await keyService.deriveSharedSecret(myKeyPair, peerPublicKeyBase64);
+        final secret = await keyService.deriveSharedSecret(
+          myKeyPair,
+          peerPublicKeyBase64,
+        );
         _establishedSecrets[endpointId] = secret;
         _pendingExchanges.remove(endpointId);
-        developer.log('Handshake: Secure session established with $endpointId (as initiator)', name: 'swiftchat.handshake');
+        developer.log(
+          'Handshake: Secure session established with $endpointId (as initiator)',
+          name: 'swiftchat.handshake',
+        );
       } else {
-        developer.log('Handshake: Error - Received response from $endpointId but no pending exchange found', name: 'swiftchat.handshake');
+        developer.log(
+          'Handshake: Error - Received response from $endpointId but no pending exchange found',
+          name: 'swiftchat.handshake',
+        );
       }
     }
   }

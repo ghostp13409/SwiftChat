@@ -9,9 +9,10 @@ class IsarDatabase {
 
   static Future<void> init() async {
     final dir = await getApplicationDocumentsDirectory();
-    isar = await Isar.open(
-      [ProfileCollectionSchema, MessageCollectionSchema, MeshPacketCollectionSchema],
-      directory: dir.path,
-    );
+    isar = await Isar.open([
+      ProfileCollectionSchema,
+      MessageCollectionSchema,
+      MeshPacketCollectionSchema,
+    ], directory: dir.path);
   }
 }

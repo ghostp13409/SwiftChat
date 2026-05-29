@@ -8,7 +8,7 @@ class ProfileCollection {
 
   @Index(unique: true, replace: true)
   late String peerId;
-  
+
   late String username;
   String? bio;
   String? photoPath;

@@ -13,7 +13,8 @@ class Profiles extends Table {
   TextColumn get bio => text().nullable()();
   TextColumn get photoPath => text().nullable()();
   TextColumn get publicKey => text()();
-  TextColumn get topics => text().map(const ListConverter())(); // Custom converter for List<String>
+  TextColumn get topics =>
+      text().map(const ListConverter())(); // Custom converter for List<String>
   BoolColumn get isMe => boolean().withDefault(const Constant(false))();
 }
 
@@ -33,7 +34,7 @@ class ListConverter extends TypeConverter<List<String>, String> {
 @DriftDatabase(tables: [Profiles])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
-  AppDatabase.withExecutor(QueryExecutor e) : super(e);
+  AppDatabase.withExecutor(super.e);
 
   @override
   int get schemaVersion => 1;
