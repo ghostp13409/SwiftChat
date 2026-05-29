@@ -11,9 +11,9 @@
 ## Technical Tasks
 
 ### 6.1 Privacy & Safety
-- [ ] Implement "Incognito Mode" (Receive but don't broadcast).
 - [ ] Peer Blocking (Ignore all packets from specific IDs).
 - [ ] Data Wipe: Single button to purge all local chat history.
+- [ ] Visibility Toggle: Simple "On/Off" switch for discovery.
 
 ### 6.2 Battery & Performance
 - [ ] Implement "Intelligent Discovery": Slowing down discovery when stationary or battery is low.

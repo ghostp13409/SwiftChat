@@ -43,7 +43,7 @@ The development of SwiftChat is divided into six logical phases to ensure a prem
 - [ ] High-speed Wi-Fi Direct file/media sharing.
 
 ### Milestone 6: "Production Ready" (End of Phase 6)
-- [ ] **Privacy**: Incognito mode and Peer Blocking.
+- [ ] **Privacy**: Peer Blocking and Visibility Controls.
 - [ ] **Performance**: Battery-intelligent discovery cycles.
 - [ ] **Distribution**: Offline APK sharing via Wi-Fi.
 - [ ] **Feel**: Tactile haptics and layered depth shadows.
