@@ -1,0 +1,54 @@
+<h2>Message Status & Relay UI</h2>
+<p class="subtitle">Visual feedback for how a message moves through the mesh</p>
+
+<div class="mockup">
+  <div class="mockup-header">Chat Preview</div>
+  <div class="mockup-body">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="align-self: flex-end; background: var(--surface); padding: 10px; border-radius: 12px 12px 0 12px; border: 1px solid var(--border); max-width: 80%;">
+        <p>Hey, did you get this?</p>
+        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.7em; margin-top: 5px; justify-content: flex-end;">
+          <span>10:30 AM</span>
+          <span style="color: var(--primary);">✓✓</span>
+          <span class="label" style="font-size: 0.8em; margin: 0;">Delivered</span>
+        </div>
+      </div>
+
+      <div style="align-self: flex-end; background: var(--surface); padding: 10px; border-radius: 12px 12px 0 12px; border: 1px solid var(--border); max-width: 80%;">
+        <p>Sent via relay...</p>
+        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.7em; margin-top: 5px; justify-content: flex-end;">
+          <span>10:32 AM</span>
+          <span style="color: var(--secondary);">✓</span>
+          <span class="label" style="font-size: 0.8em; margin: 0;">Relayed</span>
+        </div>
+      </div>
+      
+      <div style="align-self: flex-end; background: var(--surface); padding: 10px; border-radius: 12px 12px 0 12px; border: 1px solid var(--border); max-width: 80%; opacity: 0.8;">
+        <p>Still searching for peer...</p>
+        <div style="display: flex; align-items: center; gap: 5px; font-size: 0.7em; margin-top: 5px; justify-content: flex-end;">
+          <span>10:35 AM</span>
+          <span style="color: var(--border);">○</span>
+          <span class="label" style="font-size: 0.8em; margin: 0;">Pending</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>Relay Visibility</h3>
+<div class="options" data-multiselect>
+  <div class="option" data-choice="status-labels" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Explicit Labels</h3>
+      <p>Show "Relayed" or "Delivered" text next to the checkmarks for maximum clarity.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="relay-count" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Relay Hop Count</h3>
+      <p>Show how many devices a message has hopped through (e.g., "Relayed x2").</p>
+    </div>
+  </div>
+</div>

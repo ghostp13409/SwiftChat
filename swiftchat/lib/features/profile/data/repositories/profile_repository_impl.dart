@@ -1,21 +1,22 @@
 import 'package:dartz/dartz.dart';
-import 'package:drift/drift.dart';
-import '../../../../core/database/app_database.dart' hide Profile;
+import 'package:isar/isar.dart';
+import '../../../../core/database/collections/profile_collection.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/profile.dart';
 import '../../domain/repositories/profile_repository.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
-  ProfileRepositoryImpl(this.database);
+  ProfileRepositoryImpl(this.isar);
 
-  final AppDatabase database;
+  final Isar isar;
 
   @override
   Future<Either<Failure, Profile>> getMyProfile() async {
     try {
-      final myProfile = await (database.select(
-        database.profiles,
-      )..where((t) => t.isMe.equals(true))).getSingleOrNull();
+      final myProfile = await isar.profileCollections
+          .filter()
+          .isMeEqualTo(true)
+          .findFirst();
 
       if (myProfile != null) {
         return Right(
@@ -40,19 +41,28 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, void>> saveProfile(Profile profile) async {
     try {
-      await database
-          .into(database.profiles)
-          .insertOnConflictUpdate(
-            ProfilesCompanion(
-              peerId: Value(profile.id),
-              username: Value(profile.username),
-              bio: Value(profile.bio),
-              photoPath: Value(profile.photoPath),
-              publicKey: Value(profile.publicKey),
-              topics: Value(profile.topics),
-              isMe: Value(profile.isMe),
-            ),
-          );
+      await isar.writeTxn(() async {
+        final collection = isar.profileCollections;
+        final existing = await collection
+            .filter()
+            .peerIdEqualTo(profile.id)
+            .findFirst();
+
+        final record = ProfileCollection()
+          ..peerId = profile.id
+          ..username = profile.username
+          ..bio = profile.bio
+          ..photoPath = profile.photoPath
+          ..publicKey = profile.publicKey
+          ..topics = profile.topics
+          ..isMe = profile.isMe;
+
+        if (existing != null) {
+          record.id = existing.id;
+        }
+
+        await collection.put(record);
+      });
       return const Right(null);
     } catch (e) {
       return Left(CacheFailure(e.toString()));
@@ -62,9 +72,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, List<Profile>>> getNearbyPeers() async {
     try {
-      final peers = await (database.select(
-        database.profiles,
-      )..where((t) => t.isMe.equals(false))).get();
+      final peers = await isar.profileCollections
+          .filter()
+          .isMeEqualTo(false)
+          .findAll();
 
       return Right(
         peers
@@ -89,19 +100,28 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Either<Failure, void>> savePeer(Profile peer) async {
     try {
-      await database
-          .into(database.profiles)
-          .insertOnConflictUpdate(
-            ProfilesCompanion(
-              peerId: Value(peer.id),
-              username: Value(peer.username),
-              bio: Value(peer.bio),
-              photoPath: Value(peer.photoPath),
-              publicKey: Value(peer.publicKey),
-              topics: Value(peer.topics),
-              isMe: const Value(false),
-            ),
-          );
+      await isar.writeTxn(() async {
+        final collection = isar.profileCollections;
+        final existing = await collection
+            .filter()
+            .peerIdEqualTo(peer.id)
+            .findFirst();
+
+        final record = ProfileCollection()
+          ..peerId = peer.id
+          ..username = peer.username
+          ..bio = peer.bio
+          ..photoPath = peer.photoPath
+          ..publicKey = peer.publicKey
+          ..topics = peer.topics
+          ..isMe = false;
+
+        if (existing != null) {
+          record.id = existing.id;
+        }
+
+        await collection.put(record);
+      });
       return const Right(null);
     } catch (e) {
       return Left(CacheFailure(e.toString()));

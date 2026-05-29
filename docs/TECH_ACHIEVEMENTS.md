@@ -11,9 +11,10 @@ This document tracks impressive technologies, architectural patterns, and engine
 *   **Reactive State Management**: Utilized **flutter_bloc** for predictable, event-driven UI state transitions across a complex peer discovery flow.
 *   **Dependency Injection**: Leveraged **get_it** for loose coupling of services and repositories, facilitating robust unit testing.
 
-### Phase 2: Mesh & Gossip Engine (In Progress)
-*   **Isar NoSQL Database**: Migrated to **Isar** for high-performance, document-based local storage with ACID compliance, optimized for resource-constrained mobile devices.
-*   **Gossip Protocol Implementation**: Designed and built a custom synchronization handshake to propagate messages across a non-contiguous mesh network.
+### Phase 2: Mesh & Gossip Engine (Completed)
+*   **Isar NoSQL Database Migration**: Transitioned from SQLite/Drift to **Isar** for high-performance, document-based local storage with ACID compliance, optimized for resource-constrained mobile devices.
+*   **Gossip Protocol Implementation**: Designed and built a custom synchronization handshake to propagate messages across a non-contiguous mesh network using ID/Timestamp summaries.
 *   **Store-and-Forward Relay Logic**: Implemented an opportunistic relay system allowing devices to act as network nodes, caching and forwarding data for peers not in direct range.
-*   **Smart Power Management**: Engineered a "Smart Sync" algorithm that balances network freshness with battery longevity by utilizing dynamic discovery windows and peer cooldowns.
-*   **TTL (Time-To-Live) Management**: Built an automated background cleanup system to manage storage limits and enforce message volatility across all chat types.
+*   **Smart Power Management (SyncManager)**: Engineered a "Smart Sync" algorithm that balances network freshness with battery longevity by utilizing dynamic discovery windows (30s on / 3m off).
+*   **TTL (Time-To-Live) & Storage Management**: Built an automated `CleanupWorker` to manage storage limits (2000 record cap) and enforce message volatility (24h TTL) across the database.
+*   **Enhanced Chat UX**: Integrated WhatsApp-style message status tracking (Pending, Sent, Delivered) and a "Message Info" view providing transparency into the mesh network's behavior.

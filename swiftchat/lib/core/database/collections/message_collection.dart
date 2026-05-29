@@ -21,6 +21,9 @@ class MessageCollection {
   @Index()
   late DateTime timestamp;
 
+  @Index()
+  late DateTime ttl;
+
   @enumerated
   late MessageStatus status;
 

@@ -1,0 +1,54 @@
+<h2>Gossip Protocol: Sync Handshake</h2>
+<p class="subtitle">How two devices synchronize messages when they meet</p>
+
+<div class="mockup">
+  <div class="mockup-header">Handshake Flow</div>
+  <div class="mockup-body">
+    <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+      <div style="display: flex; gap: 40px; align-items: center;">
+        <div style="padding: 15px; border: 2px solid var(--border); border-radius: 8px; background: var(--surface);">
+          <strong>Device A</strong>
+          <div style="font-size: 0.8em; opacity: 0.7;">DB: [m1, m2, m3]</div>
+        </div>
+        <div style="font-size: 1.5em;">&harr;</div>
+        <div style="padding: 15px; border: 2px solid var(--border); border-radius: 8px; background: var(--surface);">
+          <strong>Device B</strong>
+          <div style="font-size: 0.8em; opacity: 0.7;">DB: [m1, m4]</div>
+        </div>
+      </div>
+      
+      <div style="width: 100%; border-left: 2px dashed var(--border); padding-left: 20px; margin-left: 20px;">
+        <div style="margin-bottom: 15px;">
+          <div class="label">1. Advertise State</div>
+          <p>Each device sends a summary (hashes/timestamps) of their current message store.</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <div class="label">2. Identify Gaps</div>
+          <p>A sees B needs [m2, m3]. B sees A needs [m4].</p>
+        </div>
+        <div style="margin-bottom: 15px;">
+          <div class="label">3. Data Exchange</div>
+          <p>A sends [m2, m3] to B. B sends [m4] to A.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>Synchronization Strategy</h3>
+<div class="options">
+  <div class="option" data-choice="hash-list" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Full Hash List</h3>
+      <p>Send IDs and timestamps of ALL active messages. Simple and reliable for smaller message counts (e.g., < 1000 messages).</p>
+    </div>
+  </div>
+  <div class="option" data-choice="bloom" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Bloom Filter / IBLT</h3>
+      <p>Send a probabilistic summary. More efficient for massive message counts, but significantly more complex to implement and debug.</p>
+    </div>
+  </div>
+</div>

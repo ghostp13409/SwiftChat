@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => di.sl<ProfileCubit>()..loadProfile()),
-        BlocProvider(create: (_) => di.sl<DiscoveryCubit>()..init()),
+        BlocProvider(create: (_) => di.sl<DiscoveryCubit>()),
         BlocProvider(create: (_) => di.sl<ChatCubit>()..init()),
       ],
       child: MaterialApp(

@@ -42,19 +42,45 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   Future<void> send(String peerId, String content) async {
+    final messageId = DateTime.now().toIso8601String();
     final myMessage = Message(
-      id: DateTime.now().toIso8601String(),
+      id: messageId,
       senderId: 'me',
       content: content,
       timestamp: DateTime.now(),
-      status: MessageStatus.sent,
+      status: MessageStatus.pending,
     );
 
     _messages.add(myMessage);
     emit(ChatActive(messages: List.from(_messages)));
 
     final result = await repository.sendMessage(peerId, content);
-    result.fold((f) => emit(ChatError(f.message)), (_) => null);
+    
+    final index = _messages.indexWhere((m) => m.id == messageId);
+    if (index != -1) {
+      result.fold(
+        (f) {
+          _messages[index] = _messages[index].copyWith(status: MessageStatus.error);
+          emit(ChatError(f.message));
+        },
+        (_) {
+          _messages[index] = _messages[index].copyWith(status: MessageStatus.sent);
+          
+          // Mocking delivered status for Task 6
+          Future.delayed(const Duration(seconds: 2), () {
+            final idx = _messages.indexWhere((m) => m.id == messageId);
+            if (idx != -1) {
+              _messages[idx] = _messages[idx].copyWith(
+                status: MessageStatus.delivered,
+                relayCount: 1, // Mock relay count
+              );
+              emit(ChatActive(messages: List.from(_messages)));
+            }
+          });
+        },
+      );
+      emit(ChatActive(messages: List.from(_messages)));
+    }
   }
 
   @override

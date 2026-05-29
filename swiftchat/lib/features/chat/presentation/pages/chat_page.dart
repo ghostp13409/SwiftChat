@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:swiftchat/features/chat/presentation/bloc/chat_cubit.dart';
 import 'package:swiftchat/features/discovery/domain/entities/peer.dart';
+import '../widgets/message_bubble.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.peer});
@@ -65,30 +66,7 @@ class _ChatPageState extends State<ChatPage> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[messages.length - 1 - index];
-                      final isMe = message.senderId == 'me';
-
-                      return Align(
-                        alignment: isMe
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 4,
-                            horizontal: 8,
-                          ),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: isMe ? Colors.deepPurple : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            message.content,
-                            style: TextStyle(
-                              color: isMe ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
-                      );
+                      return MessageBubble(message: message);
                     },
                   );
                 }

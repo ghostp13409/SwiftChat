@@ -17,5 +17,6 @@ class MeshPacketCollection {
   @Index()
   late DateTime ttl;
 
+  @Index()
   late DateTime createdAt;
 }

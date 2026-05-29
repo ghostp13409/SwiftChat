@@ -50,6 +50,7 @@ const MessageCollectionSchema = CollectionSchema(
       name: r'timestamp',
       type: IsarType.dateTime,
     ),
+    r'ttl': PropertySchema(id: 8, name: r'ttl', type: IsarType.dateTime),
   },
 
   estimateSize: _messageCollectionEstimateSize,
@@ -97,6 +98,19 @@ const MessageCollectionSchema = CollectionSchema(
         ),
       ],
     ),
+    r'ttl': IndexSchema(
+      id: 5079547260154789438,
+      name: r'ttl',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'ttl',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+      ],
+    ),
   },
   links: {},
   embeddedSchemas: {},
@@ -135,6 +149,7 @@ void _messageCollectionSerialize(
   writer.writeString(offsets[5], object.senderId);
   writer.writeByte(offsets[6], object.status.index);
   writer.writeDateTime(offsets[7], object.timestamp);
+  writer.writeDateTime(offsets[8], object.ttl);
 }
 
 MessageCollection _messageCollectionDeserialize(
@@ -155,6 +170,7 @@ MessageCollection _messageCollectionDeserialize(
       _MessageCollectionstatusValueEnumMap[reader.readByteOrNull(offsets[6])] ??
       MessageStatus.pending;
   object.timestamp = reader.readDateTime(offsets[7]);
+  object.ttl = reader.readDateTime(offsets[8]);
   return object;
 }
 
@@ -184,6 +200,8 @@ P _messageCollectionDeserializeProp<P>(
               MessageStatus.pending)
           as P;
     case 7:
+      return (reader.readDateTime(offset)) as P;
+    case 8:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -232,6 +250,14 @@ extension MessageCollectionQueryWhereSort
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'timestamp'),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterWhere> anyTtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'ttl'),
       );
     });
   }
@@ -507,6 +533,106 @@ extension MessageCollectionQueryWhere
           lower: [lowerTimestamp],
           includeLower: includeLower,
           upper: [upperTimestamp],
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterWhereClause>
+  ttlEqualTo(DateTime ttl) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'ttl', value: [ttl]),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterWhereClause>
+  ttlNotEqualTo(DateTime ttl) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'ttl',
+                lower: [],
+                upper: [ttl],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'ttl',
+                lower: [ttl],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'ttl',
+                lower: [ttl],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'ttl',
+                lower: [],
+                upper: [ttl],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterWhereClause>
+  ttlGreaterThan(DateTime ttl, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'ttl',
+          lower: [ttl],
+          includeLower: include,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterWhereClause>
+  ttlLessThan(DateTime ttl, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'ttl',
+          lower: [],
+          upper: [ttl],
+          includeUpper: include,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterWhereClause>
+  ttlBetween(
+    DateTime lowerTtl,
+    DateTime upperTtl, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'ttl',
+          lower: [lowerTtl],
+          includeLower: includeLower,
+          upper: [upperTtl],
           includeUpper: includeUpper,
         ),
       );
@@ -1394,6 +1520,61 @@ extension MessageCollectionQueryFilter
       );
     });
   }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterFilterCondition>
+  ttlEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'ttl', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterFilterCondition>
+  ttlGreaterThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ttl',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterFilterCondition>
+  ttlLessThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ttl',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterFilterCondition>
+  ttlBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ttl',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
 }
 
 extension MessageCollectionQueryObject
@@ -1513,6 +1694,19 @@ extension MessageCollectionQuerySortBy
   sortByTimestampDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterSortBy> sortByTtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterSortBy>
+  sortByTtlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttl', Sort.desc);
     });
   }
 }
@@ -1643,6 +1837,19 @@ extension MessageCollectionQuerySortThenBy
       return query.addSortBy(r'timestamp', Sort.desc);
     });
   }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterSortBy> thenByTtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MessageCollection, MessageCollection, QAfterSortBy>
+  thenByTtlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttl', Sort.desc);
+    });
+  }
 }
 
 extension MessageCollectionQueryWhereDistinct
@@ -1705,6 +1912,13 @@ extension MessageCollectionQueryWhereDistinct
       return query.addDistinctBy(r'timestamp');
     });
   }
+
+  QueryBuilder<MessageCollection, MessageCollection, QDistinct>
+  distinctByTtl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'ttl');
+    });
+  }
 }
 
 extension MessageCollectionQueryProperty
@@ -1765,6 +1979,12 @@ extension MessageCollectionQueryProperty
   timestampProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'timestamp');
+    });
+  }
+
+  QueryBuilder<MessageCollection, DateTime, QQueryOperations> ttlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ttl');
     });
   }
 }

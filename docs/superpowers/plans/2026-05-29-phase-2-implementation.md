@@ -167,15 +167,17 @@ Modify `main.dart` to initialize Isar and run migration before removing Drift.
 
 ---
 
-### Task 3: Implement MessageRepository (Isar)
+### Task 3: Migrate Repositories to Isar
 
 **Files:**
 - Create: `swiftchat/lib/features/chat/data/repositories/message_repository_impl.dart`
-- Modify: `swiftchat/lib/features/chat/domain/repositories/message_repository.dart`
+- Create: `swiftchat/lib/features/chat/domain/repositories/message_repository.dart`
+- Modify: `swiftchat/lib/features/profile/data/repositories/profile_repository_impl.dart`
 
 - [ ] **Step 1: Define MessageRepository interface**
 - [ ] **Step 2: Implement Isar version of MessageRepository**
-- [ ] **Step 3: Update Service Locator (GetIt)**
+- [ ] **Step 3: Update ProfileRepositoryImpl to use Isar**
+- [ ] **Step 4: Update Service Locator (GetIt)**
 
 ---
 

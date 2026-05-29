@@ -1,0 +1,37 @@
+<h2>Phase 2 Design: Mesh & Gossip Engine</h2>
+<p class="subtitle">Architectural overview of the storage and synchronization layers</p>
+
+<div class="section">
+  <div class="label">1. Storage Layer (Isar Migration)</div>
+  <p>We will migrate from Drift to Isar to handle the "document-like" nature of mesh packets efficiently. <b>Profiles</b>, <b>Messages</b>, and <b>MeshPackets</b> will be stored in a local Isar instance.</p>
+  <ul>
+    <li><b>MessageEntity:</b> id, senderId, recipientId, content, timestamp, status (Pending, Sent, Delivered), isDirect (True/False).</li>
+    <li><b>MeshPacket:</b> messageHash, recipientId, payload (encrypted), ttl, createdAt.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="label">2. Gossip Protocol Handshake</div>
+  <p>Two devices meeting will perform a "Summary Exchange":</p>
+  <ol>
+    <li>Send a <code>List&lt;Map&lt;String, int&gt;&gt;</code> containing <code>id</code> and <code>timestamp</code> for all local messages.</li>
+    <li>Each peer compares the list to their local DB.</li>
+    <li>Peers request missing <code>ids</code> from each other.</li>
+    <li>Missing data is sent via standard Nearby Connections payloads.</li>
+  </ol>
+</div>
+
+<div class="section">
+  <div class="label">3. Smart Sync & Background Tasks</div>
+  <p>A <code>SyncManager</code> will coordinate discovery:</p>
+  <ul>
+    <li><b>Scan Cycle:</b> Discovery starts every 3 minutes for 30 seconds.</li>
+    <li><b>Cooldown:</b> If a sync was successful with Peer X, Peer X is put on a 15-minute cooldown to save battery.</li>
+    <li><b>Cleanup:</b> A periodic <code>Timer</code> (30 mins) purges messages older than the TTL (Default 24h).</li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="label">4. UI Strategy</div>
+  <p>Keep the interface simple (WhatsApp style). "Delivered" status will be triggered by a "Delivery Receipt" mesh packet sent back from the recipient when they receive a message, which is then propagated back to the sender via the same gossip mechanism.</p>
+</div>

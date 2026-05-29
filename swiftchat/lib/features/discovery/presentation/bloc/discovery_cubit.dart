@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/use_cases/use_case.dart';
 import '../../data/data_sources/handshake_service.dart';
+import '../../../chat/data/services/sync_service.dart';
 import '../../domain/entities/peer.dart';
 import '../../domain/repositories/discovery_repository.dart';
 import '../../domain/use_cases/discovery_use_cases.dart';
@@ -45,7 +47,10 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
     required this.requestConnection,
     required this.repository,
     required this.handshakeService,
-  }) : super(DiscoveryInitial());
+    required this.syncService,
+  }) : super(DiscoveryInitial()) {
+    init();
+  }
 
   final StartAdvertising startAdvertising;
   final StopAdvertising stopAdvertising;
@@ -54,6 +59,7 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
   final RequestConnection requestConnection;
   final DiscoveryRepository repository;
   final HandshakeService handshakeService;
+  final SyncService syncService;
 
   StreamSubscription? _peersSubscription;
   StreamSubscription? _payloadSubscription;
@@ -77,6 +83,7 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
               (oldPeer == null ||
                   oldPeer.status != ConnectionStatus.connected)) {
             handshakeService.initiateHandshake(peer.endpointId, _myPeerId!);
+            syncService.sendHandshake(peer.endpointId);
           }
         }
       }
@@ -85,12 +92,30 @@ class DiscoveryCubit extends Cubit<DiscoveryState> {
     });
 
     _payloadSubscription = repository.payloadStream.listen((payload) {
-      final String id = payload['senderId'];
-      final Map<String, dynamic> data = payload['data'];
+      try {
+        final String id = payload['senderId'];
+        final Map<String, dynamic> data = payload['data'];
 
-      if (data.containsKey('type') &&
-          data['type'].toString().startsWith('handshake_')) {
-        handshakeService.handleHandshakePayload(id, data);
+        if (data.containsKey('type')) {
+          final type = data['type'].toString();
+          if (type.startsWith('handshake_')) {
+            handshakeService.handleHandshakePayload(id, data);
+          } else if (type == 'sync_handshake') {
+            syncService.handleHandshake(id, data);
+          } else if (type == 'sync_request') {
+            final hashes = List<String>.from(data['hashes'] as List);
+            syncService.processSyncRequest(id, hashes);
+          } else if (type == 'sync_data') {
+            syncService.handleSyncData(data);
+          }
+        }
+      } catch (e, stackTrace) {
+        developer.log(
+          'Error processing payload from ${payload['senderId']}',
+          name: 'DiscoveryCubit',
+          error: e,
+          stackTrace: stackTrace,
+        );
       }
     });
   }

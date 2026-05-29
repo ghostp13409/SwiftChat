@@ -1,0 +1,35 @@
+<h2>Gossip Engine: Sync Frequency</h2>
+<p class="subtitle">How often and when devices should sync with peers</p>
+
+<div class="cards">
+  <div class="card" data-choice="smart" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <div class="label">Recommended</div>
+      <h3>Smart Sync</h3>
+      <p>Scan periodically (every 2-5 mins) and keep a "Last Synced" list per peer. Avoids redundant work while maintaining a fresh mesh.</p>
+      <div class="pros-cons">
+        <div class="pros"><ul><li>Balanced battery</li><li>Fast propagation</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="active" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Active Sync</h3>
+      <p>Constant scanning and immediate connection to any new peer found. Max speed, but high battery drain.</p>
+      <div class="pros-cons">
+        <div class="cons"><ul><li>High battery usage</li><li>Constant background activity</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="manual" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Passive Sync</h3>
+      <p>Only sync when the user opens the app or is already connected for a direct chat. Lowest battery impact.</p>
+      <div class="pros-cons">
+        <div class="cons"><ul><li>Slow message delivery</li><li>Weak mesh reliability</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

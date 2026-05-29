@@ -44,7 +44,7 @@ class ChatRepositoryImpl implements ChatRepository {
               senderId: id,
               content: decryptedContent,
               timestamp: DateTime.now(),
-              status: MessageStatus.received,
+              status: MessageStatus.delivered,
             );
             _messageController.add(message);
           } catch (e) {

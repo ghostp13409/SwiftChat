@@ -31,7 +31,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Features - Discovery
   // Cubit
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => DiscoveryCubit(
       startAdvertising: sl(),
       stopAdvertising: sl(),
@@ -66,7 +66,7 @@ Future<void> init() async {
 
   // Features - Profile
   // Cubit
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => ProfileCubit(getProfile: sl(), saveProfile: sl(), keyService: sl()),
   );
 
@@ -81,7 +81,7 @@ Future<void> init() async {
 
   // Features - Chat
   // Cubit
-  sl.registerFactory(() => ChatCubit(repository: sl()));
+  sl.registerLazySingleton(() => ChatCubit(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<ChatRepository>(

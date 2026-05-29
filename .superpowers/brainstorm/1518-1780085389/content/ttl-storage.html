@@ -1,0 +1,41 @@
+<h2>TTL & Storage Limits</h2>
+<p class="subtitle">How messages expire and how we manage local cache</p>
+
+<div class="mockup">
+  <div class="mockup-header">Configuration Settings</div>
+  <div class="mockup-body">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="padding: 15px; border: 1px solid var(--border); border-radius: 8px;">
+        <div class="label">Message Expiry (TTL)</div>
+        <div style="font-size: 1.2em; margin: 10px 0;"><strong>24 Hours</strong> (Default)</div>
+        <p style="font-size: 0.8em; opacity: 0.7;">Options: 1h, 4h, 8h, 24h, 1w, 4w</p>
+        <p style="font-size: 0.8em;">Messages are automatically purged after this duration from the time they were received.</p>
+      </div>
+      
+      <div style="padding: 15px; border: 1px solid var(--border); border-radius: 8px;">
+        <div class="label">Relay Cache Limit</div>
+        <div style="font-size: 1.2em; margin: 10px 0;"><strong>100 MB</strong></div>
+        <p style="font-size: 0.8em; opacity: 0.7;">Oldest relay packets are purged if limit is exceeded.</p>
+        <p style="font-size: 0.8em;">This applies only to messages being relayed for <i>others</i>, not your own chats.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>Automatic Cleanup Strategy</h3>
+<div class="options">
+  <div class="option" data-choice="periodic" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Periodic Timer</h3>
+      <p>Run a cleanup task every 15-30 minutes while the app is in the foreground.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="on-sync" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>On-Sync Cleanup</h3>
+      <p>Clean up expired messages just before or after a new mesh sync session starts.</p>
+    </div>
+  </div>
+</div>
