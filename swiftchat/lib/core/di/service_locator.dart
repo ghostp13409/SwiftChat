@@ -7,8 +7,13 @@ import '../database/migration_service.dart';
 import '../../core/utils/encryption_service.dart';
 import '../../core/utils/permission_service.dart';
 import '../../core/utils/key_service.dart';
+import '../../core/utils/sync_manager.dart';
+import '../../core/utils/cleanup_worker.dart';
 import '../../features/chat/data/repositories/chat_repository_impl.dart';
+import '../../features/chat/data/repositories/message_repository_impl.dart';
+import '../../features/chat/data/services/sync_service.dart';
 import '../../features/chat/domain/repositories/chat_repository.dart';
+import '../../features/chat/domain/repositories/message_repository.dart';
 import '../../features/chat/presentation/bloc/chat_cubit.dart';
 import '../../features/discovery/data/data_sources/handshake_service.dart';
 import '../../features/discovery/data/repositories/discovery_repository_impl.dart';
@@ -35,6 +40,7 @@ Future<void> init() async {
       requestConnection: sl(),
       repository: sl(),
       handshakeService: sl(),
+      syncService: sl(),
     ),
   );
 
@@ -70,7 +76,7 @@ Future<void> init() async {
 
   // Repositories
   sl.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(sl()),
+    () => ProfileRepositoryImpl(sl<Isar>()),
   );
 
   // Features - Chat
@@ -86,6 +92,17 @@ Future<void> init() async {
     ),
   );
 
+  sl.registerLazySingleton<MessageRepository>(
+    () => MessageRepositoryImpl(sl<Isar>()),
+  );
+
+  sl.registerLazySingleton(
+    () => SyncService(
+      isar: sl(),
+      discoveryRepository: sl(),
+    ),
+  );
+
   // Core
   await IsarDatabase.init();
   sl.registerSingleton<Isar>(IsarDatabase.isar);
@@ -95,4 +112,11 @@ Future<void> init() async {
   sl.registerLazySingleton(() => KeyService());
   sl.registerLazySingleton(() => PermissionService());
   sl.registerLazySingleton(() => EncryptionService());
+
+  sl.registerLazySingleton(() => SyncManager(
+        discoveryCubit: sl(),
+        profileCubit: sl(),
+      ));
+
+  sl.registerLazySingleton(() => CleanupWorker(sl()));
 }
