@@ -32,7 +32,22 @@ SwiftChat's UI is designed for **Glanceable Utility** and **Low Cognitive Load**
 
 ---
 
-## 3. Core Components (The "Swift" Library)
+## 3. Information Architecture (The "3-Pane Flow")
+SwiftChat uses a physical, spatial mental model for navigation.
+
+### 3.1 Horizontal Navigation (X-Axis)
+- **Left Pane (Profile & Settings)**: User identity, preferences, and security settings.
+- **Home Pane (Active Chats)**: The default landing screen. A list of ongoing mesh conversations.
+- **Interaction**: Users swipe Right from Chats to access Profile.
+
+### 3.2 Vertical Overlay (Y-Axis)
+- **Radar (Discovery)**: Immersive layer for finding new peers.
+- **Interaction**: Swipe Up on a floating "📡 RADAR" button (bottom-right of Chat list).
+- **Privacy Toggle**: Located at the top of the Radar view. Options: **"CONTACTS ONLY"** vs **"EVERYONE"**.
+
+---
+
+## 4. Core Components (The "Swift" Library)
 
 ### 3.1 SwiftTheme Extension
 A custom `ThemeExtension` to provide consistent neubrutalist tokens across the app:

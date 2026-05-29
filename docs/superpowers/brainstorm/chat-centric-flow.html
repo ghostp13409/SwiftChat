@@ -1,0 +1,65 @@
+<h2>Structural Design: Chat-First Discovery</h2>
+<p class="subtitle">Active conversations are the priority, with Radar as an immersive discovery layer.</p>
+
+<div class="mockup-group" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px;">
+  <!-- Screen 1: Active Chats -->
+  <div class="mockup" style="min-width: 300px;">
+    <div class="mockup-header">Home: Active Chats</div>
+    <div class="mockup-body" style="background: #FDFDFD; padding: 20px;">
+      <div style="font-weight: 900; font-size: 1.5em; margin-bottom: 20px;">CHATS</div>
+      
+      <!-- Chat Item -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px; border-bottom: 2px solid #EEE; padding-bottom: 15px;">
+        <div style="width: 50px; height: 50px; background: #00D26A; border-radius: 15px; border: 2px solid #000;"></div>
+        <div style="flex: 1;">
+          <div style="font-weight: 900;">ALEX RIVERA</div>
+          <div style="font-size: 0.8em; color: #666; font-weight: 700;">Hey, are you at the lodge?</div>
+        </div>
+      </div>
+
+      <!-- Empty State / Footer -->
+      <div style="margin-top: 40px; text-align: center;">
+        <div style="font-size: 2em; margin-bottom: 10px;">👋</div>
+        <p style="font-weight: 800; font-size: 0.9em; color: #AAA;">NO OTHER PEERS NEARBY</p>
+      </div>
+
+      <!-- Swipe Up Handle -->
+      <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 40px; height: 5px; background: #DDD; border-radius: 10px;"></div>
+      <div style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); font-weight: 900; font-size: 0.6em; color: #CCC;">SWIPE UP FOR RADAR</div>
+    </div>
+  </div>
+
+  <!-- Transition: The Lift -->
+  <div style="display: flex; align-items: center; font-size: 2em;">&rarr;</div>
+
+  <!-- Screen 2: Radar Discovery -->
+  <div class="mockup" style="min-width: 300px;">
+    <div class="mockup-header">Immersive Radar</div>
+    <div class="mockup-body" style="background: #0B0E14; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      
+      <!-- Radar Pulse -->
+      <div style="width: 150px; height: 150px; border-radius: 50%; border: 2px solid #00D26A; position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; border: 1px solid rgba(0,210,106,0.3);"></div>
+        <div style="width: 20px; height: 20px; background: #FFF; border-radius: 50%; position: absolute; top: 10px; right: 20px; border: 2px solid #000; box-shadow: 0 0 10px #00D26A;"></div>
+        <div style="font-weight: 900; font-size: 0.7em; color: #00D26A;">SCANNING...</div>
+      </div>
+
+      <div style="margin-top: 30px; text-align: center;">
+        <div style="font-weight: 900; font-size: 1.2em;">FINDING TRAVELERS</div>
+        <p style="font-size: 0.8em; color: #666; font-weight: 700;">Swipe down to return to chats</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3>Interaction Logic: The "Discovery Handle"</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+  <div style="padding: 15px; border: 2px solid var(--border); border-radius: 12px; background: var(--surface);">
+    <strong>Opportunistic Radar</strong>
+    <p style="font-size: 0.85em;">The Radar isn't a separate tab; it's a "curtain" that sits behind or above the chat list. It feels like a tool you pull out when you need it.</p>
+  </div>
+  <div style="padding: 15px; border: 2px solid var(--border); border-radius: 12px; background: var(--surface);">
+    <strong>Auto-Radar</strong>
+    <p style="font-size: 0.85em;">If the user has 0 active chats, the app defaults to the Radar view with a "Welcome" state to prompt discovery.</p>
+  </div>
+</div>

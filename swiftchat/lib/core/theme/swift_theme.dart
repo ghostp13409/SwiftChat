@@ -58,7 +58,7 @@ class SwiftThemeExtension extends ThemeExtension<SwiftThemeExtension> {
 
 class SwiftTheme {
   // Brand Colors
-  static const Color vividEmerald = Color(00D26A);
+  static const Color vividEmerald = Color(0xFF00D26A);
   static const Color electricIndigo = Color(0xFF5856D6);
   static const Color pureBlack = Color(0xFF0B0E14);
   static const Color pureWhite = Color(0xFFFFFFFF);
@@ -72,7 +72,6 @@ class SwiftTheme {
         seedColor: vividEmerald,
         primary: vividEmerald,
         onPrimary: Colors.white,
-        background: pureWhite,
         surface: const Color(0xFFF5F5F5),
       ),
       textTheme: GoogleFonts.interTextTheme().copyWith(
@@ -99,7 +98,6 @@ class SwiftTheme {
         seedColor: vividEmerald,
         primary: vividEmerald,
         onPrimary: pureBlack,
-        background: pureBlack,
         surface: const Color(0xFF1C1F26),
         brightness: Brightness.dark,
       ),

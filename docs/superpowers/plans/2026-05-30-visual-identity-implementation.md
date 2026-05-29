@@ -10,65 +10,24 @@
 
 ---
 
-### Task 1: SwiftTheme Engine Setup
+### Task 1: SwiftTheme & Navigation Shell
 
 **Files:**
 - Create: `swiftchat/lib/core/theme/swift_theme.dart`
+- Create: `swiftchat/lib/shared/widgets/navigation/swift_shell.dart`
 - Modify: `swiftchat/lib/main.dart`
 
-- [ ] **Step 1: Create SwiftThemeExtension**
+- [ ] **Step 1: Implement SwiftThemeExtension & SwiftTheme**
+Define neubrutalist tokens and Light/Dark themes.
 
-```dart
-import 'package:flutter/material.dart';
+- [ ] **Step 2: Build SwiftShell (X-Axis Navigation)**
+Use a `PageView` to implement the horizontal swipe between Profile and Chat List.
 
-class SwiftThemeExtension extends ThemeExtension<SwiftThemeExtension> {
-  final double borderWidth;
-  final Offset shadowOffset;
-  final double cardRadius;
-  final double buttonRadius;
+- [ ] **Step 3: Build Radar Overlay (Y-Axis Navigation)**
+Implement a `DraggableScrollableSheet` or custom `SlideTransition` for the Radar curtain.
 
-  SwiftThemeExtension({
-    this.borderWidth = 3.0,
-    this.shadowOffset = const Offset(4.0, 4.0),
-    this.cardRadius = 24.0,
-    this.buttonRadius = 20.0,
-  });
-
-  @override
-  SwiftThemeExtension copyWith({
-    double? borderWidth,
-    Offset? shadowOffset,
-    double? cardRadius,
-    double? buttonRadius,
-  }) {
-    return SwiftThemeExtension(
-      borderWidth: borderWidth ?? this.borderWidth,
-      shadowOffset: shadowOffset ?? this.shadowOffset,
-      cardRadius: cardRadius ?? this.cardRadius,
-      buttonRadius: buttonRadius ?? this.buttonRadius,
-    );
-  }
-
-  @override
-  SwiftThemeExtension lerp(ThemeExtension<SwiftThemeExtension>? other, double t) {
-    if (other is! SwiftThemeExtension) return this;
-    return SwiftThemeExtension(
-      borderWidth: ColorTween.lerp(null, null, t) as double? ?? 3.0, // Simplification
-      shadowOffset: Offset.lerp(shadowOffset, other.shadowOffset, t)!,
-      cardRadius: cardRadius, // No lerp for radius
-      buttonRadius: buttonRadius,
-    );
-  }
-}
-```
-
-- [ ] **Step 2: Define Light & Dark Theme Data**
-
-Include `SwiftThemeExtension` in the `extensions` list of `ThemeData`. Use `Oswald` for headlines and `Inter` for body.
-
-- [ ] **Step 3: Update main.dart**
-
-Apply the new themes to `MaterialApp`.
+- [ ] **Step 4: Implement "Contacts Only / Everyone" Toggle**
+Add the functional privacy switch to the top of the Radar overlay.
 
 ---
 

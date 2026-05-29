@@ -7,8 +7,8 @@ import 'features/profile/presentation/bloc/profile_state.dart';
 import 'features/profile/presentation/pages/profile_setup_page.dart';
 import 'features/discovery/presentation/bloc/discovery_cubit.dart';
 import 'features/chat/presentation/bloc/chat_cubit.dart';
+import 'shared/widgets/navigation/swift_shell.dart';
 
-import 'features/discovery/presentation/pages/discovery_page.dart';
 import 'core/utils/sync_manager.dart';
 import 'core/utils/cleanup_worker.dart';
 
@@ -60,7 +60,7 @@ class AppRoot extends StatelessWidget {
         }
 
         if (state is ProfileLoaded) {
-          return DiscoveryPage(myProfile: state.profile);
+          return SwiftShell(myProfile: state.profile);
         }
 
         if (state is ProfileNotFound) {

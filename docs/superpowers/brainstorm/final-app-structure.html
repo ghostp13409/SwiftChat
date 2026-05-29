@@ -1,0 +1,47 @@
+<h2>Final App Structure: The 3-Pane Flow</h2>
+<p class="subtitle">A horizontal slide-deck for main sections, with a vertical "curtain" for Discovery.</p>
+
+<div class="mockup-group" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px;">
+  
+  <!-- Pane 1: Profile -->
+  <div class="mockup" style="min-width: 250px; opacity: 0.6; transform: scale(0.9);">
+    <div class="mockup-header">Profile & Settings</div>
+    <div class="mockup-body" style="background: #F5F5F5; padding: 20px;">
+      <div style="width: 80px; height: 80px; background: #EEE; border-radius: 50%; border: 3px solid #000; margin: 0 auto 20px;"></div>
+      <div style="font-weight: 900; text-align: center;">JANE DOE</div>
+      <div style="margin-top: 30px;">
+        <div style="padding: 10px; border-bottom: 1px solid #DDD; font-weight: 700; font-size: 0.8em;">⚙️ SETTINGS</div>
+        <div style="padding: 10px; border-bottom: 1px solid #DDD; font-weight: 700; font-size: 0.8em;">🛡️ PRIVACY</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pane 2: Home (Chats) -->
+  <div class="mockup" style="min-width: 300px; border: 4px solid #00D26A;">
+    <div class="mockup-header">Home: Chats</div>
+    <div class="mockup-body" style="background: #FFF; padding: 20px;">
+      <div style="font-weight: 900; font-size: 1.5em; margin-bottom: 20px;">CHATS</div>
+      <div style="height: 200px; background: #FAFAFA; border: 2px dashed #DDD; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #AAA; font-weight: 800;">ACTIVE CONVERSATIONS</div>
+      
+      <!-- The Floating Swipe Trigger -->
+      <div style="position: absolute; bottom: 30px; right: 20px; width: 60px; height: 60px; background: #00D26A; border-radius: 20px; border: 3px solid #000; box-shadow: 4px 4px 0 #000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
+        <span style="font-size: 1.2em;">📡</span>
+        <span style="font-size: 0.5em; font-weight: 900;">RADAR</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pane 3: (Empty/Reserved for Future) -->
+</div>
+
+<h3>Interactive Model Recap</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+  <div style="padding: 15px; border: 2px solid var(--border); border-radius: 12px; background: var(--surface);">
+    <strong>Horizontal (X-Axis)</strong>
+    <p style="font-size: 0.85em;">Swipe <b>Right</b> from Chats to see Profile. Swipe <b>Left</b> to return. Simple, physical mental model.</p>
+  </div>
+  <div style="padding: 15px; border: 2px solid var(--border); border-radius: 12px; background: var(--surface);">
+    <strong>Vertical (Y-Axis)</strong>
+    <p style="font-size: 0.85em;">Only on the Chat pane: Swipe <b>Up</b> on the Radar button to reveal discovery. Radar has its own <b>Visibility Toggle</b>.</p>
+  </div>
+</div>
