@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import '../database/app_database.dart';
 import '../database/isar_database.dart';
 import '../database/migration_service.dart';

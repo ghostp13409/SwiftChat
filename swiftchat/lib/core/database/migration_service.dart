@@ -1,5 +1,5 @@
 import 'dart:developer' as developer;
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'app_database.dart';
 import 'collections/profile_collection.dart';
 

@@ -1,5 +1,5 @@
 import 'dart:developer' as developer;
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import '../../../../core/database/collections/mesh_packet_collection.dart';
 import '../../../discovery/domain/repositories/discovery_repository.dart';
 import '../models/sync_handshake.dart';

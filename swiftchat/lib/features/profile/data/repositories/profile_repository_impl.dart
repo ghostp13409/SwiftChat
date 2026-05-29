@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import '../../../../core/database/collections/profile_collection.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/profile.dart';

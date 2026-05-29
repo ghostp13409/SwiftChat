@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import '../database/collections/message_collection.dart';
 import '../database/collections/mesh_packet_collection.dart';
 
