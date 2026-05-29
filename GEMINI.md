@@ -45,6 +45,7 @@ flutter test
 - **Documentation**: Keep `docs/overview.md` and `docs/SWIFTCHAT_INDEX.md` updated.
 - **Encryption**: ECDH (Diffie-Hellman) + AES-256 for E2EE.
 - **Standards**: All code must adhere to the [SwiftChat Development Standards](./docs/standards.md).
+- **Tech Achievements**: Maintain the `docs/TECH_ACHIEVEMENTS.md` file. At the end of each development phase, update it with impressive technologies, architectural patterns, or engineering techniques implemented to serve as a high-signal reference for project highlights.
 
 ## Directory Structure
 
