@@ -1,38 +1,38 @@
-# Phase 5: Polish & Optimization
+# Phase 5: Social & Media
 
-**Goal:** Finalize the app with high-end performance, battery efficiency, and premium tactile feedback.
+**Goal:** Add rich communication features including groups, topic-based discovery, and file sharing.
 
 ## Requirements
-- Optimized battery usage (smart discovery intervals).
-- Storage management (automatic cache limits).
-- Full haptic and audio feedback.
-- Production-grade error handling and edge cases.
+- Public and Private Groups.
+- Topic matching (highlighting shared interests).
+- Image and file sharing over the mesh.
+- Persistent group history (syncing through any member).
 
 ## Technical Tasks
 
-### 5.1 Battery & Performance
-- [ ] Implement "Intelligent Discovery": Slowing down discovery when stationary or battery is low.
-- [ ] Profile performance of Isar queries and Nearby Connections.
-- [ ] Isolate-based background processing for Gossip sync.
+### 4.1 Group Chat Implementation
+- [ ] Create `Group` model and database schema.
+- [ ] "Create Group" flow (Set Name, Topic, Visibility).
+- [ ] Group Handshake: Exchanging Group Keys (Shared Secret for the room).
+- [ ] Logic for "Public" (broadcasted) vs "Private" (invite-only).
 
-### 5.2 Storage & Health
-- [ ] Detailed "Storage Usage" settings page.
-- [ ] Logic to "Offload" or clear older media if device storage is critical.
-- [ ] Database integrity checks and repair tools.
+### 4.2 Topic Matching
+- [ ] System to compare user topics with nearby peers/groups.
+- [ ] Visual "Highlight" or "Match Score" in the UI.
+- [ ] "Topic-Based Rooms" auto-discovery.
 
-### 5.3 Premium UX (Polish)
-- [ ] Add subtle background noise texture (tactile feel).
-- [ ] Implement layered drop shadows for a sense of depth.
-- [ ] Integrate Haptic Feedback for discovery and message events.
-- [ ] Custom sound effects for connection/disconnection (optional).
+### 4.3 Media Sharing
+- [ ] Implement file picking and thumbnail generation.
+- [ ] "Payload Transfer" logic for large files using Wi-Fi Direct.
+- [ ] Thumbnail sync via Gossip (for previews).
+- [ ] Auto-delete files when the message expires.
 
-### 5.4 Final Testing & Hardening
-- [ ] Stress test: 10+ devices in a mesh.
-- [ ] Long-range testing (max distance for BLE vs Wi-Fi).
-- [ ] Cross-platform verification (Android 14 <-> iOS 17).
+### 4.4 Group Sync
+- [ ] Implement "Group Gossip": Syncing the room history through any member currently in range.
+- [ ] Membership tracking: Who is currently in the group and reachable.
 
 ## Success Criteria
-1. App runs for 24 hours without significant battery drain.
-2. Mesh remains stable with multiple hopping devices.
-3. UI feels "Premium" and responsive (60fps animations).
-4. No data leaks or unencrypted packets found in audit.
+1. Create a group on Device A. Device B joins.
+2. Device A and B chat. Device A moves away.
+3. Device C joins the group. Device B syncs A's old messages to C.
+4. Photos shared in the group are visible and eventually deleted.

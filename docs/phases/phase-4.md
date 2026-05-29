@@ -1,38 +1,37 @@
-# Phase 4: Social & Media
+# Phase 4: Explore & Radar UI
 
-**Goal:** Add rich communication features including groups, topic-based discovery, and file sharing.
+**Goal:** Create a reactive, playful UI that makes discovering nearby people and groups intuitive and engaging.
 
 ## Requirements
-- Public and Private Groups.
-- Topic matching (highlighting shared interests).
-- Image and file sharing over the mesh.
-- Persistent group history (syncing through any member).
+- A default "Explore" page.
+- A "Radar" view with interactive bubbles.
+- Visual feedback for connection status (Connected, Out of Range, Syncing).
+- Playful animations and transitions.
 
 ## Technical Tasks
 
-### 4.1 Group Chat Implementation
-- [ ] Create `Group` model and database schema.
-- [ ] "Create Group" flow (Set Name, Topic, Visibility).
-- [ ] Group Handshake: Exchanging Group Keys (Shared Secret for the room).
-- [ ] Logic for "Public" (broadcasted) vs "Private" (invite-only).
+### 3.1 Explore Hub
+- [ ] Build the main `ExploreScreen`.
+- [ ] Toggle between "Radar View" and "List View".
+- [ ] Show count of "Nearby Peers" in real-time.
 
-### 4.2 Topic Matching
-- [ ] System to compare user topics with nearby peers/groups.
-- [ ] Visual "Highlight" or "Match Score" in the UI.
-- [ ] "Topic-Based Rooms" auto-discovery.
+### 3.2 The Radar Engine
+- [ ] Implement custom painter for the Radar circles.
+- [ ] Build `PeerBubble` widget that "floats" and scales based on signal/proximity.
+- [ ] Interaction: Tap bubble to show "Quick Info" bottom sheet.
 
-### 4.3 Media Sharing
-- [ ] Implement file picking and thumbnail generation.
-- [ ] "Payload Transfer" logic for large files using Wi-Fi Direct.
-- [ ] Thumbnail sync via Gossip (for previews).
-- [ ] Auto-delete files when the message expires.
+### 3.3 Connection UI & Animations
+- [ ] Implement the "Handshake" animation (visual confirmation of E2EE).
+- [ ] Add "Green Dot" status for active high-speed connections.
+- [ ] Add "Ghost/Fade" effect for peers who just moved out of range.
+- [ ] Implement "Syncing..." visual cue when Gossip is active.
 
-### 4.4 Group Sync
-- [ ] Implement "Group Gossip": Syncing the room history through any member currently in range.
-- [ ] Membership tracking: Who is currently in the group and reachable.
+### 3.4 Profile Cards
+- [ ] Detailed view of a peer: Bio, Topics (tags), and "Send Request".
+- [ ] Group cards: Name, Topic, and "Join" button.
 
 ## Success Criteria
-1. Create a group on Device A. Device B joins.
-2. Device A and B chat. Device A moves away.
-3. Device C joins the group. Device B syncs A's old messages to C.
-4. Photos shared in the group are visible and eventually deleted.
+1. Explore page shows a "Pulse" animation.
+2. Bubbles appear and move smoothly as devices move.
+3. Tapping a bubble feels responsive and provides immediate info.
+4. Visual difference between a "Direct" peer and a "Mesh" peer.
